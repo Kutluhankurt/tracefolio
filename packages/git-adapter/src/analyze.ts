@@ -71,7 +71,7 @@ export async function analyzeRepository(repoPath: string, options: AnalyzeOption
   for (const commit of commits) {
     if (!authors.includes(commit.authorEmail.toLowerCase())) continue;
     stats.authored++;
-    if (known.has(commitKey(repo.name, commit.hash))) {
+    if (known.has(commitKey(commit.hash))) {
       stats.duplicates++;
       continue;
     }

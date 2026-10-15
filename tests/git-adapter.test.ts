@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import { commitKey } from "@tracefolio/core";
 import { analyzeRepository, inferSkills, parseGitLog } from "@tracefolio/git-adapter";
@@ -47,7 +48,7 @@ describe("analyzeRepository", () => {
     expect(serialized).not.toContain("server.pem");
     expect(result.drafts[1]!.skills).toEqual(["Python"]);
 
-    const again = await analyzeRepository(repo, { known: new Set([commitKey("api", first)]) });
+    const again = await analyzeRepository(repo, { known: new Set([commitKey(first)]) });
     expect(again.stats.duplicates).toBe(1);
     expect(again.drafts.flatMap((d) => d.evidence ?? [])).toHaveLength(1);
   });
@@ -55,5 +56,20 @@ describe("analyzeRepository", () => {
   it("returns nothing for an empty repository", async () => {
     const result = await analyzeRepository(makeRepo());
     expect(result.drafts).toEqual([]);
+  });
+});
+
+describe("copies of a repository", () => {
+  it("does not import the same commit twice from a renamed clone", async () => {
+    const original = makeRepo("updater_v1");
+    commit(original, { "main.py": "print(1)" }, "Add updater");
+    const first = await analyzeRepository(original);
+    const known = new Set(first.drafts.flatMap((d) => d.evidence ?? []).flatMap((e) => (e.type === "git_commit" ? [commitKey(e.commit)] : [])));
+
+    const copy = `${original}_copy`;
+    execFileSync("git", ["clone", "-q", original, copy]);
+    const second = await analyzeRepository(copy, { authors: ["me@example.com"], known });
+    expect(second.stats.duplicates).toBe(1);
+    expect(second.drafts).toEqual([]);
   });
 });

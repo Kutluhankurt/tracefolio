@@ -117,7 +117,7 @@ describe("ProfileStore", () => {
     const keys = referencedCommits([
       event({ evidence: [{ type: "git_commit", repository: "Repo", commit: "abcdef1234567890" }] }),
     ]);
-    expect(keys.has("repo@abcdef123456")).toBe(true);
+    expect(keys.has("abcdef1")).toBe(true);
   });
 
   it("resolves home from flag, env, nearest config, then default", () => {

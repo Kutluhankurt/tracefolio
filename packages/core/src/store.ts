@@ -196,18 +196,22 @@ export function findEventIndex(events: CareerEvent[], id: string): number {
   return matches[0]!;
 }
 
-/** Commit hashes already referenced by any stored event (including rejected ones). */
+/** Keys of commits already referenced by any stored event (including rejected ones). */
 export function referencedCommits(events: CareerEvent[]): Set<string> {
   const set = new Set<string>();
   for (const event of events) {
     for (const ev of event.evidence) {
-      if (ev.type === "git_commit") set.add(commitKey(ev.repository, ev.commit));
+      if (ev.type === "git_commit") set.add(commitKey(ev.commit));
     }
   }
   return set;
 }
 
-/** Hashes may be stored abbreviated; keys compare on the first 12 characters. */
-export function commitKey(repository: string, commit: string): string {
-  return `${repository.toLowerCase()}@${commit.slice(0, 12).toLowerCase()}`;
+/**
+ * A commit is the same piece of work in every clone, fork or renamed copy of a
+ * repository, so de-duplication keys on the hash alone. Hashes may be stored
+ * abbreviated, so keys compare on git's minimum short-hash length.
+ */
+export function commitKey(commit: string): string {
+  return commit.slice(0, 7).toLowerCase();
 }

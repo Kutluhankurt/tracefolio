@@ -191,7 +191,7 @@ export function createProgram(io: CliIO = defaultIO()): Command {
         }
         await store.appendEvents(result.drafts);
         for (const d of result.drafts) {
-          for (const e of d.evidence ?? []) if (e.type === "git_commit") known.add(commitKey(e.repository, e.commit));
+          for (const e of d.evidence ?? []) if (e.type === "git_commit") known.add(commitKey(e.commit));
         }
         if (result.drafts.length && ensureProject(profile, projectSlug(result.repo.name), { name: result.repo.name, repository: result.repo.remoteUrl })) {
           profileChanged = true;
@@ -281,7 +281,7 @@ export function createProgram(io: CliIO = defaultIO()): Command {
           updatedAt: undefined,
         });
         const dupes = event.evidence.filter(
-          (e) => e.type === "git_commit" && known.has(commitKey(e.repository, e.commit)),
+          (e) => e.type === "git_commit" && known.has(commitKey(e.commit)),
         );
         if (dupes.length && !opts.allowDuplicate) {
           throw new TracefolioError(
@@ -289,7 +289,7 @@ export function createProgram(io: CliIO = defaultIO()): Command {
               "The work is already captured; use --allow-duplicate to record it anyway.",
           );
         }
-        for (const e of event.evidence) if (e.type === "git_commit") known.add(commitKey(e.repository, e.commit));
+        for (const e of event.evidence) if (e.type === "git_commit") known.add(commitKey(e.commit));
         toSave.push(event);
       }
       const saved = await store.appendEvents(toSave);
