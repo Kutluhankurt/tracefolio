@@ -1,0 +1,29 @@
+{
+  "name": "tracefolio",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@tracefolio/core": "workspace:*",
+    "@tracefolio/generators": "workspace:*",
+    "@tracefolio/git-adapter": "workspace:*",
+    "@tracefolio/integrations": "workspace:*",
+    "commander": "^12.1.0"
+  },
+  "bin": {
+    "tracefolio": "dist/index.js"
+  },
+  "description": "Tracefolio command line interface"
+}

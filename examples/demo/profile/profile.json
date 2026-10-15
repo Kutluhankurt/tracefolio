@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "person": {
+    "name": "Ada Example",
+    "headline": "Backend engineer building reliable edge and data systems",
+    "summary": "Fictional demo profile. Ada ships backend services, device fleet tooling and developer tools, and keeps every claim on this page tied to evidence.",
+    "location": "Istanbul, Türkiye",
+    "email": "ada@example.com",
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/example" },
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/example" }
+    ]
+  },
+  "identities": { "gitEmails": ["ada@example.com"] },
+  "skills": ["Python", "TypeScript", "PostgreSQL", "Linux"],
+  "experience": [
+    {
+      "organization": "Example Robotics",
+      "role": "Senior Backend Engineer",
+      "start": "2023-04",
+      "end": null,
+      "location": "Istanbul",
+      "highlights": [
+        "Own the firmware rollout service for a fleet of edge AI devices",
+        "Mentor two engineers on testing and code review"
+      ]
+    },
+    {
+      "organization": "Sample Analytics",
+      "role": "Software Engineer",
+      "start": "2020-09",
+      "end": "2023-03",
+      "highlights": ["Built ingestion pipelines for sensor data"]
+    }
+  ],
+  "education": [
+    { "institution": "Example Technical University", "degree": "BSc Computer Engineering", "start": "2016-09", "end": "2020-06" }
+  ],
+  "projects": [
+    {
+      "id": "fleet-updater",
+      "name": "Fleet Updater",
+      "description": "Parallel firmware rollout for edge devices over unreliable field networks.",
+      "visibility": "private",
+      "featured": true,
+      "story": {
+        "problem": "Firmware updates were run device by device over SSH, took hours per site and occasionally bricked devices when power dropped mid-update.",
+        "responsibility": "Designed and built the updater end to end; ran the first three site rollouts.",
+        "approach": "One worker per device with retry-until-reachable semantics, and a narrow, explicitly guarded critical section for the rename step.",
+        "implementation": "Python, Paramiko, a CSV-driven queue that accepts new devices while running, and structured logs per device.",
+        "outcome": "Rollouts run unattended per site; the risky step is isolated and logged."
+      }
+    },
+    {
+      "id": "log-lens",
+      "name": "Log Lens",
+      "description": "Open-source parser that turns raw device logs into searchable timelines.",
+      "url": "https://example.com/log-lens",
+      "repository": "https://github.com/example/log-lens",
+      "visibility": "public",
+      "featured": true,
+      "story": {
+        "problem": "Support engineers grepped multi-gigabyte logs by hand to reconstruct incidents.",
+        "responsibility": "Author and maintainer.",
+        "approach": "Stream parsing with typed event records and a small query layer.",
+        "outcome": "Used by the support team for incident timelines."
+      }
+    }
+  ]
+}

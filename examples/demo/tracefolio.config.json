@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "analyze": { "groupBy": "week", "maxCommits": 2000 },
+  "privacy": { "sensitivePatterns": [], "redactSecrets": true }
+}

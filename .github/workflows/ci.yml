@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+      - name: Smoke test the CLI on the demo profile
+        run: |
+          pnpm tracefolio --home examples/demo validate
+          pnpm tracefolio --home examples/demo build --out "$RUNNER_TEMP/demo"
+          test -f "$RUNNER_TEMP/demo/resume.md"
+          test -f "$RUNNER_TEMP/demo/portfolio/index.html"

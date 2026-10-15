@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+out/
+# Personal career data never belongs in the tool repository.
+/profile/
+.tracefolio/
+.env
+.env.*
