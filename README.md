@@ -114,17 +114,26 @@ Your career memory is a git repo of JSON/JSONL files. Diff it, back it up, move 
 git clone https://github.com/Kutluhankurt/tracefolio.git
 cd tracefolio
 pnpm install && pnpm build
-cd packages/cli && npm link && cd ../..     # puts `tracefolio` on your PATH
+cd packages/cli && npm link && cd ../..   # adds `tracefolio` to PATH
 ```
 
 Then, in about a minute:
 
 ```bash
-tracefolio init --headline "Backend engineer"           # 1. create your profile (~/.tracefolio)
-tracefolio analyze ~/code/my-project --since "6 months ago"   # 2. draft events from your commits
-tracefolio review                                         # 3. approve, verify, publish or reject
-tracefolio build                                          # 4. resume.md, resume.html, portfolio/
-tracefolio portfolio dev                                  # 5. preview at http://127.0.0.1:4321
+# 1. Create your profile (in ~/.tracefolio)
+tracefolio init --headline "Backend engineer"
+
+# 2. Draft career events from your commits
+tracefolio analyze ~/code/my-project --since "6 months ago"
+
+# 3. Approve, verify, publish or reject each draft
+tracefolio review
+
+# 4. Generate resume.md, resume.html and portfolio/
+tracefolio build
+
+# 5. Preview the portfolio at http://127.0.0.1:4321
+tracefolio portfolio dev
 ```
 
 This is what it looks like on a real repository:
