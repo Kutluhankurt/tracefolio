@@ -228,6 +228,36 @@ tracefolio update \
 
 > **Honest limitation:** Tracefolio only sees what you or your agents hand it. It cannot read your ChatGPT web conversations, and each tool offers different integration hooks.
 
+## 📊 Daily career assistant <sup>new in v0.2</sup>
+
+Turn Tracefolio on once and it works in the background: every evening it reads what you did that day, summarises it, suggests resume entries and updates a personal dashboard.
+
+```bash
+tracefolio activity enable --engine claude --language tr   # opt in (all off by default)
+tracefolio daily                                            # run the routine now (or from cron)
+tracefolio dashboard                                        # open the dashboard
+```
+
+| Tab | What you see |
+| --- | --- |
+| **Today** | Active time, AI prompts, commits, a written summary of the day, and resume suggestions with one-click **Add to resume / Publish / Reject** |
+| **Daily log** | Every day you worked, per project, with commits and (collapsible) the prompts you gave your AI tools |
+| **Calendar** | A heatmap of active days, streaks, and time per project |
+| **Resume** | Drafts waiting for review next to your live resume |
+| **Career** | Strengths with evidence, gaps for your target role with concrete next actions, a skill map, and skill growth by month |
+
+**What it reads:** your git commits, plus Claude Code (`~/.claude/projects`) and Codex (`~/.codex/sessions`) session logs **if you opt in**. From sessions it keeps the date, project, active time, edited file names, tools used and your own prompts (redacted and truncated, or counts only with `--no-prompts`). It never stores code, AI responses or anything from sensitive files.
+
+**Who writes the insights:** `--engine rules` stays fully offline. `--engine claude` runs `claude -p` once a day with that day's signals to write a better summary, resume suggestions and career advice. That sends the day's summary data to Anthropic under your own Claude Code account, so it is opt-in.
+
+**What it never does:** approve or publish anything. Suggestions arrive as drafts; only you move them onto your resume or portfolio. Raw activity and insights live in `~/.tracefolio/activity` and `~/.tracefolio/insights`, which are git-ignored so they can't be pushed by accident.
+
+Schedule it with cron (Linux/macOS):
+
+```cron
+0 18 * * * PATH=$HOME/.local/bin:/usr/bin:/bin tracefolio daily >> $HOME/.tracefolio/daily.log 2>&1
+```
+
 ## 📚 Command reference
 
 <details>
@@ -244,6 +274,11 @@ tracefolio update \
 | `tracefolio project add <id>\|list` | `--name`, `--description`, `--url`, `--repository`, `--public`/`--private`, `--featured` |
 | `tracefolio integrate claude-code\|codex` | Install agent skills: `--project <dir>` or `--user` |
 | `tracefolio status` / `validate` | Counts per status; validate every file against the schema |
+| `tracefolio activity enable` | Opt in to AI session logs: `--no-claude-code`, `--no-codex`, `--no-prompts`, `--engine claude\|rules`, `--language`, `--role`, `--model`, `--repo` |
+| `tracefolio collect` | Gather recent AI-session and commit activity (`--days`) |
+| `tracefolio insights` | Write a day's summary, suggestions and career report (`--date`, `--engine`) |
+| `tracefolio daily` | Collect → insights → drafts → rebuild resume, portfolio and dashboard → desktop notification |
+| `tracefolio dashboard` | Serve the dashboard on localhost with working review buttons (`--port`, `--no-open`, `--build-only`) |
 
 **Which commits are yours:** `--author`, otherwise `identities.gitEmails` in `profile.json`, otherwise the repository's `git config user.email`.
 
@@ -277,6 +312,7 @@ Found a security issue? Please report it privately; see [SECURITY.md](SECURITY.m
 - [x] Markdown and HTML resume with ATS checks
 - [x] Static, animated portfolio with light and dark themes
 - [x] Claude Code and Codex integrations
+- [x] Daily career assistant: AI-session activity, daily insights, dashboard and gap analysis
 - [ ] Direct PDF export
 - [ ] Multiple resume templates and tailoring to a job posting
 - [ ] MCP server and more agent adapters

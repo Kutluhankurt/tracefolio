@@ -1,7 +1,7 @@
 {
   "name": "tracefolio-monorepo",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Local-first, AI-provider-agnostic career memory: turn real work into an evidence-backed resume and portfolio.",
   "license": "MIT",
   "type": "module",

@@ -1,6 +1,6 @@
 {
   "name": "tracefolio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -20,7 +20,8 @@
     "@tracefolio/generators": "workspace:*",
     "@tracefolio/git-adapter": "workspace:*",
     "@tracefolio/integrations": "workspace:*",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "@tracefolio/activity": "workspace:*"
   },
   "bin": {
     "tracefolio": "dist/index.js"

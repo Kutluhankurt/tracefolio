@@ -21,7 +21,7 @@ export const EVENT_TYPES = [
 export const EventTypeSchema = z.enum(EVENT_TYPES);
 export type EventType = z.infer<typeof EventTypeSchema>;
 
-export const EVENT_SOURCES = ["git", "claude-code", "codex", "manual", "other"] as const;
+export const EVENT_SOURCES = ["git", "claude-code", "codex", "insights", "manual", "other"] as const;
 export const EventSourceSchema = z.enum(EVENT_SOURCES);
 export type EventSource = z.infer<typeof EventSourceSchema>;
 
@@ -181,6 +181,32 @@ export const ConfigSchema = z.object({
       /** Extra glob patterns treated as sensitive, on top of the built-in list. */
       sensitivePatterns: z.array(z.string().min(1)).default([]),
       redactSecrets: z.boolean().default(true),
+    })
+    .default({}),
+  activity: z
+    .object({
+      /** Read local Claude Code and Codex session logs. Opt-in. */
+      claudeCode: z.boolean().default(false),
+      codex: z.boolean().default(false),
+      /** Keep the user's own prompts (redacted, truncated). Off keeps counts only. */
+      storePrompts: z.boolean().default(false),
+      /** Headless `claude -p` runs (scripts, Tracefolio itself) are not work sessions. */
+      includeHeadless: z.boolean().default(false),
+      /** Repositories scanned for daily commits, in addition to ones found via AI sessions. */
+      repos: z.array(z.string().min(1)).default([]),
+    })
+    .default({}),
+  insights: z
+    .object({
+      engine: z.enum(["claude", "rules"]).default("rules"),
+      /** Optional model passed to `claude --model`. */
+      model: z.string().optional(),
+      /** Language for summaries and career advice (resume entries stay in English). */
+      language: z.string().default("en"),
+      targetRole: z.string().default("AI / Software Engineer"),
+      /** Create draft events from the day's suggestions. They still need review. */
+      createDrafts: z.boolean().default(true),
+      notify: z.boolean().default(true),
     })
     .default({}),
 });

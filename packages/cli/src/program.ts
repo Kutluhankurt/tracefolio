@@ -42,9 +42,10 @@ import {
   renderResumeMarkdown,
 } from "@tracefolio/generators";
 import { INTEGRATIONS, install, type Integration } from "@tracefolio/integrations";
+import { registerDailyCommands } from "./daily.js";
 import { serveStatic } from "./serve.js";
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 
 export interface CliIO {
   out: (text: string) => void;
@@ -480,6 +481,12 @@ export function createProgram(io: CliIO = defaultIO()): Command {
           : "Codex reads AGENTS.md; the Tracefolio section is updated in place on reinstall.",
       );
     });
+
+  registerDailyCommands(program, io, {
+    storeFor: (cmd) => storeFor(cmd, io),
+    buildOutputs: (store, outDir, format) => buildOutputs(store, outDir, format, io),
+    ensureProject,
+  });
 
   return program;
 }

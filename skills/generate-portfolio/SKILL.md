@@ -31,3 +31,10 @@ description: Build the user's resume and static portfolio site from their approv
 - Do not publish the portfolio anywhere. Deploying it is the user's decision.
 - Private projects never show repository links or commit hashes on the
   portfolio; do not work around this.
+
+## Daily dashboard
+
+If the user asks what they did today, how their career is progressing, or what
+they are missing for a role, run `tracefolio daily` (or `tracefolio insights`
+for one day) and then `tracefolio dashboard`. Summarise the Today and Career
+tabs for them; do not approve the suggested drafts on their behalf.

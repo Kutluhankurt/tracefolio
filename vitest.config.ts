@@ -10,6 +10,7 @@ export default defineConfig({
       "@tracefolio/git-adapter": pkg("git-adapter"),
       "@tracefolio/generators": pkg("generators"),
       "@tracefolio/integrations": pkg("integrations"),
+      "@tracefolio/activity": pkg("activity"),
     },
   },
   test: {

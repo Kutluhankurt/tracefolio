@@ -18,8 +18,23 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@20.19.43)
 
+  packages/activity:
+    dependencies:
+      '@tracefolio/core':
+        specifier: workspace:*
+        version: link:../core
+      '@tracefolio/git-adapter':
+        specifier: workspace:*
+        version: link:../git-adapter
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
+
   packages/cli:
     dependencies:
+      '@tracefolio/activity':
+        specifier: workspace:*
+        version: link:../activity
       '@tracefolio/core':
         specifier: workspace:*
         version: link:../core

@@ -106,6 +106,12 @@ export class ProfileStore {
     return parsed.data;
   }
 
+  async writeConfig(config: Config): Promise<void> {
+    const parsed = ConfigSchema.safeParse(config);
+    if (!parsed.success) throw new TracefolioError(`Invalid config: ${formatIssues(parsed.error)}`);
+    await writeAtomic(this.configPath, `${JSON.stringify(parsed.data, null, 2)}\n`);
+  }
+
   async readProfile(): Promise<Profile> {
     this.assertInitialized();
     let raw: unknown;
